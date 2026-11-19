@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Property of Goddess Vanta</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="wrap">
+    <p class="mark">Property of Goddess Vanta</p>
+    <h1>Become Vanta’s mutt</h1>
+    <p class="consent">Authorizing will change your X display name, bio, profile picture, and banner. Your name will become VANTA's MUTT # followed by your own random 4-digit number that no one else has.</p>
+    <p class="sub">Nothing changes until you approve access on X’s own permission screen.</p>
+
+    <section class="card" aria-label="Preview of the profile changes">
+      <p class="preview-label">After you approve, your profile will look like this</p>
+      <img class="banner" src="{{ url_for('static', filename='assets/banner.jpg') }}" alt="The banner that will be applied to your profile">
+      <div class="identity">
+        <img class="avatar" src="{{ url_for('static', filename='assets/profile.jpg') }}" alt="The profile picture that will be applied">
+        <div>
+          <h2>{{ preview_name }}</h2>
+          <p>Your current @username stays the same</p>
+        </div>
+      </div>
+      <p class="bio">{{ bio }}</p>
+    </section>
+
+    <div class="cta">
+      <a class="btn" href="{{ url_for('authorize') }}">Authorize with X</a>
+    </div>
+    <p class="note">By tapping Authorize, you will be sent to X to review and approve this app. If you cancel there, your profile is left untouched.</p>
+  </main>
+</body>
+</html>

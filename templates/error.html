@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="wrap">
+    <p class="mark">Property of Goddess Vanta</p>
+    <h1>{{ title }}</h1>
+    <p class="consent">{{ message }}</p>
+    {% if detail %}
+    <p class="detail">{{ detail }}</p>
+    {% endif %}
+
+    <div class="cta" style="margin-top: 2rem;">
+      <a class="btn btn-ghost" href="{{ url_for('index') }}">Back to the start</a>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>You’re Vanta’s mutt</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="wrap">
+    <p class="mark">Property of Goddess Vanta</p>
+    <h1>You’re {{ display_name }}</h1>
+    <p class="consent">Your X display name, bio, profile picture, and banner have been updated. Your @username is unchanged{% if screen_name %} (@{{ screen_name }}){% endif %}.</p>
+
+    <section class="card" aria-label="Updated profile preview">
+      <p class="preview-label">Your profile now looks like this</p>
+      <img class="banner" src="{{ url_for('static', filename='assets/banner.jpg') }}" alt="The banner applied to your profile">
+      <div class="identity">
+        <img class="avatar" src="{{ url_for('static', filename='assets/profile.jpg') }}" alt="The profile picture applied to your profile">
+        <div>
+          <h2>{{ display_name }}</h2>
+          <p>{% if screen_name %}@{{ screen_name }}{% else %}Your @username stays the same{% endif %}</p>
+        </div>
+      </div>
+      <p class="bio">{{ bio }}</p>
+    </section>
+
+    <div class="cta">
+      <a class="btn btn-ghost" href="{{ url_for('index') }}">Back to the start</a>
+    </div>
+  </main>
+</body>
+</html>

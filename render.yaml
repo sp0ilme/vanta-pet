@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: vanta-pet-app
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: X_API_KEY
+        sync: false
+      - key: X_API_SECRET
+        sync: false
+      - key: CALLBACK_URL
+        sync: false
+      - key: SECRET_KEY
+        generateValue: true
