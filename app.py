@@ -42,12 +42,12 @@ NUMBER_MAX = 9999
 OAUTH_REQUEST_TOKEN_URL = "https://api.x.com/oauth/request_token"
 OAUTH_AUTHORIZE_URL = "https://api.x.com/oauth/authorize"
 OAUTH_ACCESS_TOKEN_URL = "https://api.x.com/oauth/access_token"
-UPDATE_PROFILE_URL = "https://api.twitter.com/1.1/account/update_profile.json"
+UPDATE_PROFILE_URL = "https://api.x.com/1.1/account/update_profile.json"
 UPDATE_PROFILE_IMAGE_URL = (
-    "https://api.twitter.com/1.1/account/update_profile_image.json"
+    "https://api.x.com/1.1/account/update_profile_image.json"
 )
 UPDATE_PROFILE_BANNER_URL = (
-    "https://api.twitter.com/1.1/account/update_profile_banner.json"
+    "https://api.x.com/1.1/account/update_profile_banner.json"
 )
 
 app = Flask(__name__)
