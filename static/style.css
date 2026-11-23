@@ -195,3 +195,52 @@ h1 {
 }
 
 a { color: var(--accent); }
+
+
+.warn {
+  text-align: center;
+  color: var(--neon);
+  font-size: 0.88rem;
+  margin: 0 auto 1.4rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+th, td {
+  text-align: left;
+  padding: 0.7rem 0.55rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+th {
+  color: var(--neon);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+form.stack { display: grid; gap: 0.8rem; max-width: 22rem; margin: 0 auto; }
+
+input[type="password"] {
+  width: 100%;
+  padding: 0.8rem 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: #10081c;
+  color: var(--ink);
+  font-size: 1rem;
+}

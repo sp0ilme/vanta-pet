@@ -37,10 +37,13 @@ Official walkthrough of the 3-legged OAuth 1.0a flow this app uses: [Obtaining a
 | `X_API_SECRET` | Yes | API Secret (consumer secret) |
 | `CALLBACK_URL` | Yes in production | Exact callback URI registered on the X app, e.g. `https://your-service.onrender.com/callback` |
 | `SECRET_KEY` | Yes in production | Random secret used to sign session cookies. Render can generate this for you. |
+| `ADMIN_PASSWORD` | Yes for `/admin` | Password for the owner dashboard at `/admin`. Lists everyone who authorized. |
 | `DATA_DIR` | No | Directory for the SQLite file. Defaults to `./data`. |
 | `PORT` | No | Listen port. Render sets this automatically. Local default is `8000`. |
 
 Copy `.env.example` if you run the app locally. Do not commit a real `.env` file.
+
+The owner dashboard is at `/admin`. Sign in with `ADMIN_PASSWORD` to see everyone who authorized, including their assigned number, username, user id, display name, and when they opted in.
 
 ## 3. Deploy on Render
 
@@ -52,6 +55,7 @@ Copy `.env.example` if you run the app locally. Do not commit a real `.env` file
    - `X_API_SECRET`
    - `CALLBACK_URL` — `https://<your-service-name>.onrender.com/callback` after you know the service URL. You can deploy once, copy the URL, add the callback on both Render and the X app, then redeploy or just restart.
    - `SECRET_KEY` — a long random string, or leave Render’s Blueprint to generate one.
+   - `ADMIN_PASSWORD` — a strong password for the owner dashboard at `/admin`.
 5. Deploy. Open the site, read the consent text, and confirm the preview looks right. Do a test authorization with an account you control.
 
 ### Persistent numbers on Render
@@ -107,7 +111,7 @@ app.py                 Flask app (OAuth 1.0a + profile updates)
 requirements.txt
 Procfile               Gunicorn start command for Render
 render.yaml            Render Blueprint
-templates/             Landing, success, cancel, and error pages
+templates/             Landing, success, cancel, error, and admin pages
 static/style.css
 static/assets/profile.jpg
 static/assets/banner.jpg   Already 1500×500 (X’s banner size)

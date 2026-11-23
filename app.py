@@ -13,7 +13,7 @@ import os
 import random
 import sqlite3
 import secrets
-from functools import lru_cache
+from functools import lru_cache, wraps
 from pathlib import Path
 
 from flask import (
@@ -133,6 +133,35 @@ def assign_display_name(twitter_user_id: str, screen_name: str | None) -> str:
         raise RuntimeError("Could not assign a unique display-name number.")
     finally:
         conn.close()
+
+
+
+def list_opted_in() -> list[sqlite3.Row]:
+    conn = get_db()
+    try:
+        return conn.execute(
+            "SELECT * FROM issued_numbers ORDER BY created_at DESC"
+        ).fetchall()
+    finally:
+        conn.close()
+
+
+def count_opted_in() -> int:
+    conn = get_db()
+    try:
+        return int(conn.execute("SELECT COUNT(*) AS c FROM issued_numbers").fetchone()["c"])
+    finally:
+        conn.close()
+
+
+def admin_required(view):
+    @wraps(view)
+    def wrapped(*args, **kwargs):
+        if not session.get("is_admin"):
+            return redirect(url_for("admin_login", next=request.path))
+        return view(*args, **kwargs)
+
+    return wrapped
 
 
 @lru_cache(maxsize=2)
@@ -374,9 +403,46 @@ def success_redirect():
     return redirect(url_for("index"))
 
 
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    configured = bool((os.environ.get("ADMIN_PASSWORD") or "").strip())
+    error = None
+    if request.method == "POST":
+        expected = (os.environ.get("ADMIN_PASSWORD") or "").strip()
+        if not expected:
+            error = "ADMIN_PASSWORD is not set on the server yet."
+        elif request.form.get("password") == expected:
+            session["is_admin"] = True
+            dest = request.args.get("next") or url_for("admin")
+            if not dest.startswith("/"):
+                dest = url_for("admin")
+            return redirect(dest)
+        else:
+            error = "That password is not correct."
+    return render_template("admin_login.html", configured=configured, error=error)
+
+
+@app.route("/admin/logout", methods=["POST", "GET"])
+def admin_logout():
+    session.pop("is_admin", None)
+    return redirect(url_for("admin_login"))
+
+
+@app.route("/admin")
+@admin_required
+def admin():
+    rows = list_opted_in()
+    return render_template(
+        "admin.html",
+        rows=rows,
+        total=len(rows),
+    )
+
+
 @app.get("/healthz")
 def healthz():
-    return {"ok": True, "configured": configured()}
+    return {"ok": True, "configured": configured(), "opted_in": count_opted_in()}
 
 
 if __name__ == "__main__":

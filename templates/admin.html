@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Opt-in log</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="wrap" style="width: min(960px, calc(100% - 2rem));">
+    <div class="row-top">
+      <div>
+        <p class="mark" style="text-align:left; margin:0 0 0.4rem;">Owner dashboard</p>
+        <h1 style="text-align:left; font-size: 2rem;">{{ total }} opted in</h1>
+        <p class="sub" style="text-align:left; margin:0;">Everyone who authorized and received a unique VANTA's MUTT number.</p>
+      </div>
+      <form method="post" action="{{ url_for('admin_logout') }}">
+        <button class="btn btn-ghost" type="submit">Log out</button>
+      </form>
+    </div>
+
+    <section class="card" style="max-width: none; overflow-x: auto;">
+      {% if rows %}
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>User ID</th>
+            <th>Display name</th>
+            <th>Authorized</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in rows %}
+          <tr>
+            <td>{{ '%04d'|format(row['number']) }}</td>
+            <td>
+              {% if row['screen_name'] %}
+              <a href="https://x.com/{{ row['screen_name'] }}" target="_blank" rel="noopener">@{{ row['screen_name'] }}</a>
+              {% else %}
+              —
+              {% endif %}
+            </td>
+            <td>{{ row['twitter_user_id'] }}</td>
+            <td>{{ row['display_name'] }}</td>
+            <td>{{ row['created_at'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p class="sub" style="margin:0;">No one has authorized yet.</p>
+      {% endif %}
+    </section>
+  </main>
+</body>
+</html>
